@@ -1,44 +1,53 @@
 <template>
-    <div>
-        <h2>ログイン</h2>
-        <label for="email">EMAIL:</label>
-        <input
-         id="email"
-         type="email"
-         v-model="email"
-        >
-        <br>
-        <label for="password">パスワード：</label>
-        <input 
-        id="password"
-        type="password"
-        v-model="password"
-        >
-        <br>
-        <button @click="login">送信</button>
-
-    </div>
+  <div class="login">
+    <h1>ログイン</h1>
+    <form class="form" @submit.prevent>
+      <label class="label">
+        <span class="label"> email </span>
+        <input class="input" type="text" v-model="email" />
+      </label>
+      <label class="label">
+        <span class="label"> password </span>
+        <input class="input" type="password" v-model="password" />
+      </label>
+      <button class="button" type="submit" @click="login">Login</button>
+      <nuxt-link to="/register"> アカウント登録はこちら </nuxt-link>
+    </form>
+    <nuxt-link to="/register"> アカウント作成はこちら </nuxt-link>
+  </div>
 </template>
 
 <script>
-import axios from "axios";
 export default {
-    data(){
-      return{
-          email: '',
-          password: '',
+  computed: {
+    user() {
+      return this.$store.getters["user"];
+      console.log(user);
+    },
+  },
+  data() {
+    return {
+      email: "",
+      password: "",
+    };
+  },
+  methods: {
+    login(email, password) {
+      this.$store.dispatch("login", {
+        email: this.email,
+        password: this.password,
+      });
+      if (this.$store.getters["user"]) {
+        this.$router.push("/");
       }
     },
-    methods:{
-        login(){
-            this.$store.commit('updateIdToken', {
-              email: this.email,
-              password: this.password
-            });
-            this.email = '';
-            this.password = '';
-     }
-   }
+    // this.$store.commit('updateIdToken', {
+    //   email: this.email,
+    //   password: this.password
+    // });
+    // this.email = '';
+    // this.password = '';
+  },
 };
 </script>
 

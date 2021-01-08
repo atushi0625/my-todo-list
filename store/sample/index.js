@@ -2,7 +2,7 @@ import firebase from '@/plugins/firebase'
 // firebaseを定義する
 
 
- const state = () => ({
+export const state = () => ({
     todos: [],
    })
    
@@ -39,7 +39,7 @@ import firebase from '@/plugins/firebase'
                 })
             })
       },
-      deleteTodo({ dispatch }, id) {
+      deleteTodo({ commit, dispatch }, id) {
         firebase.firestore().collection('todos').doc(id).delete()
         dispatch('getTodos')
       },

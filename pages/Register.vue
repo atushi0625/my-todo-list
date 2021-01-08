@@ -1,42 +1,48 @@
 <template>
-    <div>
-        <h2>登録</h2>
-        <label for="email">EMAIL:</label>
-        <input
-         id="email"
-         type="email"
-         v-model="email"
-        >
-        <br>
-        <label for="password">パスワード：</label>
-        <input 
-        id="password"
-        type="password"
-        v-model="password"
-        >
-        <br>
-        <button @click="register">送信</button>
-
-    </div>
+  <div class="page">
+    <h2 class="text">アカウント登録</h2>
+    <form class="form" @submit.prevent>
+      <label class="label">
+        <span class="label"> email </span>
+        <input class="input" type="text" v-model="email" />
+      </label>
+      <label class="label">
+        <span class="iabel"> password </span>
+        <input class="input" type="password" v-model="password" />
+      </label>
+      <button class="button" type="submit" @click="register">Register</button>
+    </form>
+    <nuxt-link to="/login" class="link"> ログインはこちら </nuxt-link>
+  </div>
 </template>
+
 <script>
-import axios from "axios";
+// import axios from "axios";
 export default {
-    data(){
-      return{
-          email: '',
-          password: '',
-      }
+  computed: {
+    user() {
+      return this.$store.getters["user"];
     },
-    methods:{
-        register(){
-            this.$store.commit('index/updateIdToken', {
-              email: this.email,
-              password: this.password
-            });
-            this.email = '';
-            this.password = '';
-     }
-  }
+  },
+  data() {
+    return {
+      email: "",
+      password: "",
+    };
+  },
+  methods: {
+    register() {
+      this.$store.dispatch("register", {
+        email: this.email,
+        password: this.password,
+      });
+      // this.$store.commit('index/updateIdToken', {
+      //   email: this.email,
+      //   password: this.password
+      // });
+      // this.email = '';
+      // this.password = '';
+    },
+  },
 };
 </script>
