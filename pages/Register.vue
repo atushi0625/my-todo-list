@@ -17,7 +17,6 @@
 </template>
 
 <script>
-// import axios from "axios";
 export default {
   computed: {
     user() {
@@ -36,12 +35,6 @@ export default {
         email: this.email,
         password: this.password,
       });
-      // this.$store.commit('index/updateIdToken', {
-      //   email: this.email,
-      //   password: this.password
-      // });
-      // this.email = '';
-      // this.password = '';
     },
   },
 };

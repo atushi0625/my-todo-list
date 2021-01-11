@@ -1,72 +1,65 @@
 <template>
- <div>
-   <h1>My TODO List</h1>
-<input type="text" v-model="name"><br>
-<label for="comment">コメント：</label>
-<textarea v-model="comment"></textarea>
-<button @click="createComment">コメントをサーバーに送る</button>
-<h2>掲示板</h2>
-<div v-for="post in posts" :key='post.name'>
- <div>名前：{{ post.fields.name.stringValue }}</div>
- <div>コメント：{{ post.fields.comment.stringValue }}</div>
-</div>
- </div>    
+  <div class="comment">
+    <h1>コメントしてね</h1>
+    <label for="name">ニックネーム：</label>
+    <input type="text" v-model="name" />
+    <br />
+    <label for="comment">コメント：</label>
+    <textarea v-model="comment"></textarea>
+    <br />
+    <button @click="createComment">コメントをサーバーに送る</button>
+    <h2>コメントリスト</h2>
+    <div v-for="post in posts" :key="post.name">
+      <br />
+      <div>名前：{{ post.fields.name.stringValue }}</div>
+      <div>コメント：{{ post.fields.comment.stringValue }}</div>
+    </div>
+  </div>
 </template>
 
 <script>
 import axios from "axios";
-
 export default {
-   data(){
-      return {
-        name: "",
-        comment: "",
-        posts:[]
-      }
-   },
-   computed:{
-     idToken(){
-         return this.$store.getters.idToken;
-     }
-   },
-   created(){
-     axios
-     .get('/comments', {
-         headers: {
-             Authorization: `Bearer ${this.idToken}`
-         }
-     })
-     .then(response => {
-       this.posts = response.data.documents;
-     });
-    //  データを何も送らないから引数は２つ
-   },
-   methods:{
-     createComment(){
-       axios.post('/comments',{
-        fields:{
-          name:{
-            stringValue: this.name
-          },
-          comment:{
-           stringValue: this.comment
+  data() {
+    return {
+      name: "",
+      comment: "",
+      posts: [],
+    };
+  },
+  created() {
+    axios
+      .get(
+        "https://firestore.googleapis.com/v1/projects/my-todolist-pj/databases/(default)/documents/comments"
+      )
+      .then((res) => {
+        this.posts = res.data.documents; //空のpostsに取ってきたデータを表示する
+        console.log(res.data.documents);
+      });
+  },
+  methods: {
+    createComment() {
+      axios
+        .post(
+          "https://firestore.googleapis.com/v1/projects/my-todolist-pj/databases/(default)/documents/comments",
+          {
+            fields: {
+              //cloudfirestoreの場合
+              name: {
+                stringValue: this.name, //型を指定する
+              },
+              comment: {
+                stringValue: this.comment, //型を指定する
+              },
+            },
           }
-         }
-       },
-       {
-         headers: {
-             Authorization: `Bearer ${this.idToken}`
-         }
-       }
-     );
-       this.name = "";
-       this.comment = "";
-     }
-   }                 
+        )
+        .then((res) => {
+          console.log(res);
+        });
+      this.name = "";
+      this.comment = "";
+    },
+  },
 };
 </script>
-
-<style>
-
-
-</style>

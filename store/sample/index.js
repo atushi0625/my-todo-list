@@ -31,6 +31,7 @@ export const state = () => ({
             .then((res) => {
                 firebase.firestore().collection('todos').doc(res.id)
                 .set({
+                    done: false,
                     todo: todo,
                     id: res.id,
                 }).then(() => {
