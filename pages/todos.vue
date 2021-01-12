@@ -22,8 +22,9 @@
 
 <script>
 export default {
-  async fetch({ store }) {
-    await store.dispatch("sample/getTodos"); //awaiteはpromiseの役割
+  fetch({ store }) {
+    store.dispatch("sample/getTodos"); //awaite
+    console.log(1);
   },
   data() {
     return {

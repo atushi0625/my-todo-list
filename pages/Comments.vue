@@ -33,6 +33,7 @@ export default {
         "https://firestore.googleapis.com/v1/projects/my-todolist-pj/databases/(default)/documents/comments"
       )
       .then((res) => {
+        //非同期処理が終わった後
         this.posts = res.data.documents; //空のpostsに取ってきたデータを表示する
         console.log(res.data.documents);
       });
