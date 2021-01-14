@@ -28,33 +28,26 @@ export default {
     };
   },
   created() {
-    axios
-      .get(
-        "https://firestore.googleapis.com/v1/projects/my-todolist-pj/databases/(default)/documents/comments"
-      )
-      .then((res) => {
-        //非同期処理が終わった後
-        this.posts = res.data.documents; //空のpostsに取ってきたデータを表示する
-        console.log(res.data.documents);
-      });
+    axios.get("/comments").then((res) => {
+      //非同期処理が終わった後
+      this.posts = res.data.documents; //空のpostsに取ってきたデータを表示する
+      console.log(res.data.documents);
+    });
   },
   methods: {
     createComment() {
       axios
-        .post(
-          "https://firestore.googleapis.com/v1/projects/my-todolist-pj/databases/(default)/documents/comments",
-          {
-            fields: {
-              //cloudfirestoreの場合
-              name: {
-                stringValue: this.name, //型を指定する
-              },
-              comment: {
-                stringValue: this.comment, //型を指定する
-              },
+        .post("/comments", {
+          fields: {
+            //cloudfirestoreの場合
+            name: {
+              stringValue: this.name, //型を指定する
             },
-          }
-        )
+            comment: {
+              stringValue: this.comment, //型を指定する
+            },
+          },
+        })
         .then((res) => {
           console.log(res);
         });

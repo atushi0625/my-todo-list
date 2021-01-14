@@ -41,7 +41,8 @@ export const state = () => ({
         //   })
       },
  async  addTodo({ dispatch }, todo) {
-      await  firebase.firestore().collection('todos').add({                    done: false,
+　　  await  firebase.firestore().collection('todos').add({ 
+            done: false,
             todo: todo,
             id: res.id,
 　　　　　　　　　　　})
