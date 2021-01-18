@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from "~/plugins/axios";
 export default {
   data() {
     return {
@@ -29,7 +29,7 @@ export default {
   },
   created() {
     axios.get("/comments").then((res) => {
-      //非同期処理が終わった後
+      //非同期処理(データが返ってきた時)が終わった後
       this.posts = res.data.documents; //空のpostsに取ってきたデータを表示する
       console.log(res.data.documents);
     });

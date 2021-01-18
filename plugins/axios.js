@@ -1,6 +1,5 @@
-// import axios from 'axios'
+import axios from 'axios'
 
-// export default axios.create({
-//   baseURL: process.env.baseUrl
-// })
-// export default axios
+export default axios.create({
+  baseURL: process.env.baseURL
+})

@@ -31,7 +31,6 @@
 </template>
 
 <script>
-// import{ mapActions } from 'vuex'
 export default {
   computed: {
     user() {
@@ -47,11 +46,13 @@ export default {
     };
   },
   methods: {
-    login(email, password) {
+    login() {
       this.$store.dispatch("login", {
         email: this.email,
         password: this.password,
       });
+      this.email = "";
+      this.password = "";
       if (this.$store.getters["user"]) {
         //user情報が取得できたらHOME画面に移動できる
         this.$router.push("/");

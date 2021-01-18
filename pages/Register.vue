@@ -17,6 +17,7 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   computed: {
     user() {
@@ -35,6 +36,9 @@ export default {
         email: this.email,
         password: this.password,
       });
+      // 送信した後textの中身をからにする
+      this.email = "";
+      this.password = "";
     },
   },
 };
