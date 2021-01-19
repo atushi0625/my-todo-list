@@ -21,6 +21,7 @@
 </template>
 
 <script>
+// import {mapActions} from 'vuex'
 export default {
   fetch({ store }) {
     store.dispatch("sample/getTodos"); //awaite
@@ -29,7 +30,6 @@ export default {
   data() {
     return {
       todo: "",
-      done: false, //todoの完了、未完了
     };
   },
   computed: {
@@ -52,6 +52,8 @@ export default {
       }
     },
     //  Todoの削除
+    // ...mapActions(['deleteTodo'])
+
     deleteTodo(index) {
       this.$store.dispatch("sample/deleteTodo", this.todos[index].id);
     },
