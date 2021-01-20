@@ -3,11 +3,7 @@
     <p>{{ user.email }}</p>
     <div class="page">
       <ul>
-        <li
-          v-for="(todo, index) in todos"
-          :key="todo.id"
-          @click="deleteTodo(index)"
-        >
+        <li v-for="(todo, index) in todos" :key="todo.id">
           <button @click="deleteTodo(index)">×</button>
           {{ todo.todo }}
         </li>
@@ -21,7 +17,7 @@
 </template>
 
 <script>
-// import {mapActions} from 'vuex'
+import { mapActions } from "vuex";
 export default {
   fetch({ store }) {
     store.dispatch("sample/getTodos"); //awaite
@@ -52,11 +48,10 @@ export default {
       }
     },
     //  Todoの削除
-    // ...mapActions(['deleteTodo'])
-
-    deleteTodo(index) {
-      this.$store.dispatch("sample/deleteTodo", this.todos[index].id);
-    },
+    ...mapActions("sample", ["deleteTodo"]),
+    // deleteTodo(index) {
+    //   this.$store.dispatch("sample/deleteTodo", this.todos[index].id);
+    // },
   },
 };
 </script>

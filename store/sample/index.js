@@ -4,6 +4,7 @@ import firebase from '@/plugins/firebase'
 
 export const state = () => ({
     todos: [],
+    
    })
    
    export const getters = {
@@ -29,18 +30,18 @@ export const state = () => ({
       
 
       },
- async  addTodo({ dispatch }, todo) {
+ async  addTodo({ commit }, todo) {
 　　  await  firebase.firestore().collection('todos').add({ 
             todo: todo,
 　　　　　　　　　　　})
         //   firebaseのfirestoreの中のコレクションtodosにリストを追加
-                    dispatch('getTodos')
+                    commit('getTodos')
               },
             //idとはfirestoreのドキュメントid
-      deleteTodo({ dispatch }, id) {
-        firebase.firestore().collection('todos').doc(id).delete().then(()=>{
-          dispatch('getTodos')
-        })
+     deleteTodo({ commit }, id) {
+        firebase.firestore().collection('todos').doc('id').delete().then(()=>{
+            commit('getTodos', id)
+          })
       },
    }
 

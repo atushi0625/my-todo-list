@@ -13,12 +13,14 @@
       <br />
       <div>名前：{{ post.fields.name.stringValue }}</div>
       <div>コメント：{{ post.fields.comment.stringValue }}</div>
+      <button @click="deleteItem(delateId)">コメント削除</button>
     </div>
   </div>
 </template>
 
 <script>
 import axios from "~/plugins/axios";
+import firebase from "@/plugins/firebase";
 export default {
   data() {
     return {
@@ -54,6 +56,21 @@ export default {
       this.name = "";
       this.comment = "";
     },
+    getIndex(index) {
+      this.delateId = this.posts[index].id;
+    },
+  },
+  mounted() {
+    deleteItem("deleteId");
+    db.collection("comments")
+      .doc("delateId")
+      .delete()
+      .then(() => {
+        console.log("Document successfully deleted!");
+      })
+      .catch(function (error) {
+        console.error("Error removing document: ", error);
+      });
   },
 };
 </script>
