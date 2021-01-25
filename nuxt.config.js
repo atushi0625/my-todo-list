@@ -1,3 +1,6 @@
+const pkg = require('./package')
+const webpack = require('webpack')
+
 export default {
   // Disable server-side rendering (https://go.nuxtjs.dev/ssr-mode)
   ssr: false,
@@ -21,7 +24,7 @@ export default {
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
-  //  '~/plugins/axios',
+   '~/plugins/firebase'
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
@@ -35,21 +38,22 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
-    '@nuxtjs/dotenv'
+    '@nuxtjs/dotenv',
   ],
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
-axios:{
-credentials: false
-},
 
   env: {
     baseURL: process.env.BASE_URL || 'https://firestore.googleapis.com/v1/projects/my-todolist-pj/databases/(default)/documents',
-    API_URL: process.env.API_URL,
-    FB_APIkey: process.env.FB_APIkey || 'AIzaSyA9TDyjtoOeQ_0pt05jEfQ7jEUdGqmtPXc'
+    FB_APIkey: process.env.FB_APIkey || 'AIzaSyA9TDyjtoOeQ_0pt05jEfQ7jEUdGqmtPXc',
   },
 
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {
-  }
+    plugins: [
+      new webpack.ProvidePlugin({
+        '_': 'lodash'
+      })
+    ]
+  },
 }

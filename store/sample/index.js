@@ -1,57 +1,41 @@
-import firebase from '@/plugins/firebase'
-// firebaseを定義する
+import firebase from '~/plugins/firebase'
+import { firestoreAction } from 'vuexfire'
 
+const db = firebase.firestore()
+const todosRef = db.collection('todos')
 
 export const state = () => ({
-    todos: [],
-    
+  todos: []
+})
+
+export const actions = {
+  init: firestoreAction(({ bindFirestoreRef })=>{
+    bindFirestoreRef('todos', todosRef)
+  }),
+  add: firestoreAction((context, name)=> {
+    if(name.trim()){ 　　//入力値が空白ではないか確認
+      todosRef.add({
+        name: name,
+        // deadLineMonth: newDeadLineMonth,
+        // deadLineDay: newDeadLineDay,
+        done: false,
+        created: firebase.firestore.FieldValue.serverTimestamp()
+      })
+    }
+  }),
+  remove: firestoreAction((context, id) => {
+    todosRef.doc(id).delete()
+  }),
+  toggle: firestoreAction((context, todo) => {  //todoの完了未完了
+    todosRef.doc(todo.id).update({
+      done: !todo.done
    })
-   
-   export const getters = {
-    todos: state => {
-      return state.todos
-    },
-   }
+  })
+}
 
-   export const actions = {
-       
-   async getTodos({ commit }) {
-
-  const res = await  firebase.firestore().collection('todos').orderBy("todo").get()
-      //firebaseからget()でデータを取得
-      
-        console.log(0);
-        const todos = []  //取得データを入れる用に作ります
-        res.forEach(x => {  //firebaseのdoc.idを取得(collectionの直下)
-          console.log(x.data())  //x.data＝xの中のdata{ id: "", todo: ""}をtodosにpushします！
-          todos.push(x.data())
-        })
-        commit('getTodos', todos)   //データが入ったtodosを引数としてcommit
-      
-
-      },
- async  addTodo({ commit }, todo) {
-　　  await  firebase.firestore().collection('todos').add({ 
-            todo: todo,
-　　　　　　　　　　　})
-        //   firebaseのfirestoreの中のコレクションtodosにリストを追加
-                    commit('getTodos')
-              },
-            //idとはfirestoreのドキュメントid
-     deleteTodo({ commit }, id) {
-        firebase.firestore().collection('todos').doc('id').delete().then(()=>{
-            commit('getTodos', id)
-          })
-      },
-   }
-
-   export const mutations = {
-       getTodos (state, todos){
-           state.todos = todos  //Todoの追加
-       },
-       deleteTodo(state, index) {
-         state.todos.splice(index,1)  //削除
-       },
-   }
-
-
+export const getters = {
+  orderdTodos: state => {
+   return _.sortBy(state.todos, 'created')
+   //state.todosの値をcreatedでソートして返す、orderdTodosという名前でコンポーネントから呼び出す
+  }
+}
