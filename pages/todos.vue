@@ -16,7 +16,7 @@
             <span :class="{ done: todo.done }">
               <!-- doneの値がtrueだったらdoneクラスが設定される -->
               {{ todo.name }} {{ todo.created.toDate() | dateFilter }}
-              <!-- {{ todo.deadLineMonth }}月{{ todo.deadLineDay }}日 -->
+              {{ todo.month }}月{{ todo.day }}日
             </span>
           </span>
         </li>
@@ -24,13 +24,16 @@
       <form @submit.prevent="add">
         <!-- addTodoを押したときにページがリロードされないようにする -->
         <input v-model="name" type="text" placeholder="Todoを追加" />
-        <select name="month" size="1" v-model="newDeadLineMonth">
+        <!-- <input type="date" name="date" v-model="date" value="date" /> -->
+        <select name="month" size="1" v-model="month">
           <option value="" hidden>Month</option>
-          <option v-for="m in 12" :key="m" :value="m">{{ m }}月</option>
+          <option v-for="month in 12" :key="month" :value="month">
+            {{ month }}月
+          </option>
         </select>
-        <select name="day" size="1" v-model="newDeadLineDay">
+        <select name="day" size="1" v-model="day">
           <option value="" hidden>Day</option>
-          <option v-for="d in 31" :key="d" :value="d">{{ d }}日</option>
+          <option v-for="day in 31" :key="day" :value="day">{{ day }}日</option>
         </select>
         <button type="submit">Todoを追加</button>
       </form>
@@ -47,8 +50,8 @@ export default {
   data() {
     return {
       name: "",
-      newDeadLineMonth: "",
-      newDeadLineDay: "",
+      month: "",
+      day: "",
       done: false,
     };
   },
@@ -71,16 +74,13 @@ export default {
   methods: {
     //  ボタンを押したらTodoを追加
     add() {
-      this.$store.dispatch(
-        "sample/add",
-        this.name
-        // this.newDeadLineMonth,
-        // this.newDeadLineDay
-      );
+      this.$store.dispatch("sample/add", this.name, this.month, this.day);
+
       this.name = "";
-      this.newDeadLineMonth = "";
-      this.newDeadLineDay = "";
+      this.month = "";
+      this.day = "";
     },
+
     //  Todoの削除
     remove(id) {
       //idはfirestoreのドキュメントid

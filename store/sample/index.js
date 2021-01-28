@@ -1,25 +1,27 @@
 import firebase from '~/plugins/firebase'
 import { firestoreAction } from 'vuexfire'
 
-const db = firebase.firestore()
-const todosRef = db.collection('todos')
+const db = firebase.firestore() //データベースはfirebase.firestore
+const todosRef = db.collection('todos')//コレクション名はtodos
 
 export const state = () => ({
-  todos: []
+  todos: [],
 })
 
 export const actions = {
   init: firestoreAction(({ bindFirestoreRef })=>{
     bindFirestoreRef('todos', todosRef)
   }),
-  add: firestoreAction((context, name)=> {
+  add: firestoreAction((context, name, month, day) => {
     if(name.trim()){ 　　//入力値が空白ではないか確認
       todosRef.add({
         name: name,
-        // deadLineMonth: newDeadLineMonth,
-        // deadLineDay: newDeadLineDay,
+        month: month,
+        day: day,
         done: false,
         created: firebase.firestore.FieldValue.serverTimestamp()
+
+        
       })
     }
   }),
@@ -30,7 +32,7 @@ export const actions = {
     todosRef.doc(todo.id).update({
       done: !todo.done
    })
-  })
+  }),  
 }
 
 export const getters = {
