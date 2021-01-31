@@ -45,6 +45,10 @@ export const actions = {
      console.log({'code':error.code, 'message':error.message})
    })
  },
+ logout () {
+  firebase.auth().signOut()
+  this.checkLogin = false
+ }
 }
 
 export const mutations = {
@@ -56,6 +60,6 @@ export const mutations = {
   },
   checkLogin(state){
     state.user.login = true
-  }
+  },
 }
 

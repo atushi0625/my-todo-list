@@ -6,6 +6,9 @@
           <!-- todoのcreatedに値がある時だけspanで囲ったtodoの要素を描画 -->
           <span v-if="todo.created">
             <button @click="remove(todo.id)">×</button>
+            <button @click="doChangeState(todo)">
+              {{ labels[todo.state] }}
+            </button>
             <input
               type="checkbox"
               :checked="todo.done"
@@ -21,6 +24,12 @@
           </span>
         </li>
       </ul>
+      <label v-for="(label, i) in options" :key="i">
+        <input type="radio" v-model="current" :value="label.value" />{{
+          label.label
+        }}
+      </label>
+      <h1>{{ computedTodos.length }}件表示中</h1>
       <form @submit.prevent="add">
         <!-- addTodoを押したときにページがリロードされないようにする -->
         <input v-model="name" type="text" placeholder="Todoを追加" />
@@ -37,6 +46,8 @@
         </select>
         <button type="submit">Todoを追加</button>
       </form>
+      <nuxt-link to="/memo">メモ帳</nuxt-link>
+      <button @click="logout">ログアウトする</button>
     </div>
   </div>
 </template>
@@ -46,6 +57,14 @@ import moment from "moment";
 export default {
   created() {
     this.$store.dispatch("sample/init");
+
+    // firebase.auth().onAuthStateChanged((user) => {
+    //   if (user) {
+    //     this.setLoginUser(user);
+    //   } else {
+    //     this.deleteLoginUser();
+    //   }
+    // });
   },
   data() {
     return {
@@ -53,6 +72,12 @@ export default {
       month: "",
       day: "",
       done: false,
+      current: -1,
+      options: [
+        { value: -1, label: "すべて" },
+        { value: 0, label: "完了" },
+        { value: 1, label: "未完了" },
+      ],
     };
   },
   computed: {
@@ -64,6 +89,19 @@ export default {
     },
     user() {
       return this.$store.getters["user"];
+    },
+    computedTodos() {
+      // データcurrentが-1ならすべて
+      // それ以外なら current と state が一致するものだけに絞り込む
+      // 条件演算子？式1：式２
+      return this.todos.filter(function (el) {
+        return this.current < 0 ? true : this.current === el.state;
+      }, this);
+    },
+    labels() {
+      return this.options.reduce(function (a, b) {
+        return Object.assign(a, { [b.value]: b.label });
+      }, {});
     },
   },
   filters: {
@@ -88,6 +126,16 @@ export default {
     },
     toggle(todo) {
       this.$store.dispatch("sample/toggle", todo);
+    },
+    doChangeState(todo) {
+      todo.state = !todo.state ? 1 : 0;
+    },
+    logout() {
+      this.$store.dispatch("login/logout").then(() => {
+        this.$router.push("/");
+      });
+
+      alert("ログアウトしますか？");
     },
   },
 };

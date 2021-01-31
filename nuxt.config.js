@@ -42,10 +42,10 @@ export default {
   ],
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
 
-  env: {
-    baseURL: process.env.BASE_URL || 'https://firestore.googleapis.com/v1/projects/my-todolist-pj/databases/(default)/documents',
-    FB_APIkey: process.env.FB_APIkey || 'AIzaSyA9TDyjtoOeQ_0pt05jEfQ7jEUdGqmtPXc',
-  },
+  // env: {
+  //   baseURL: process.env.BASE_URL || 'https://firestore.googleapis.com/v1/projects/my-todolist-pj/databases/(default)/documents',
+  //   APIkey: process.env.FIREBASE_API_KEY || 'AIzaSyA9TDyjtoOeQ_0pt05jEfQ7jEUdGqmtPXc',
+  // },
 
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)

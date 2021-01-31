@@ -34,8 +34,7 @@
 export default {
   computed: {
     user() {
-      return this.$store.getters["user"];
-      console.log(user);
+      return this.$store.getters["login/user"];
     },
   },
   data() {
@@ -47,16 +46,16 @@ export default {
   },
   methods: {
     login() {
-      this.$store.dispatch("login", {
+      this.$store.dispatch("login/login", {
         //actionsはdispatchで実行
         email: this.email, //引数
         password: this.password, //引数
       });
       this.email = "";
       this.password = "";
-      if (this.$store.getters["user"]) {
+      if (this.$store.getters["login/user"]) {
         //user情報が取得できたらHOME画面に移動できる
-        this.$router.push("/");
+        this.$router.push("/todos");
       }
     },
     pressed() {

@@ -31,13 +31,16 @@ export default {
   },
   methods: {
     register() {
-      this.$store.dispatch("register", {
+      this.$store.dispatch("login/register", {
         email: this.email,
         password: this.password,
       });
       // 送信した後textの中身をからにする
       this.email = "";
       this.password = "";
+      if (this.$store.getters["login/register"]) {
+        this.$router.push("/login");
+      }
     },
   },
 };
