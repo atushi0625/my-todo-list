@@ -23,7 +23,7 @@
       <button class="button" type="submit" @click="login">ログイン</button>
       <div class="no_account_link">
         <p>アカウントをお持ちでない方</p>
-        <nuxt-link to="/register"> 新規登録はこちら </nuxt-link>
+        <nuxt-link to="/Register"> 新規登録はこちら </nuxt-link>
       </div>
     </form>
     <div class="error" v-if="error">{{ error.message }}</div>
@@ -32,11 +32,8 @@
 
 <script>
 export default {
-  computed: {
-    user() {
-      return this.$store.getters["login/user"];
-    },
-  },
+  middleware: ["checkLogin"],
+
   data() {
     return {
       email: "",
@@ -46,17 +43,30 @@ export default {
   },
   methods: {
     login() {
-      this.$store.dispatch("login/login", {
-        //actionsはdispatchで実行
-        email: this.email, //引数
-        password: this.password, //引数
-      });
+      this.$firebase
+        .auth()
+        .signInWithEmailAndPassword(this.email, this.password)
+        .then((user) => {
+          //ログイン成功時に.thenに記載,ログインと同時に取得
+          console.log("成功！");
+        })
+        .catch((error) => {
+          alert(error);
+        });
+
       this.email = "";
       this.password = "";
-      if (this.$store.getters["login/user"]) {
-        //user情報が取得できたらHOME画面に移動できる
-        this.$router.push("/todos");
-      }
+
+      // this.$store.dispatch("login/login", {
+      //   //actionsはdispatchで実行
+      //   email: this.email, //引数
+      //   password: this.password, //引数
+      // });
+      // this.email = "";
+      // this.password = "";
+      // if (this.$store.getters["login/user"]) {
+      //   //user情報が取得できたらHOME画面に移動できる
+      //   this.$router.push("/todos");
     },
     pressed() {
       alert("pressed");
@@ -66,6 +76,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$color: blue;
 .login {
   margin-top: 50px;
   display: flex;
@@ -73,6 +84,7 @@ export default {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  color: $color;
 
   span {
     margin-left: 10px;

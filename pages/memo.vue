@@ -24,7 +24,7 @@
             class="content"
             cols="50"
             rows="5"
-            v-model="content"
+            v-model="newMemo"
           ></textarea>
         </td>
       </tr>
@@ -32,8 +32,9 @@
         <th></th>
         <td>
           <button @click="insert">save</button>
+          <button @click="addMemo">追加</button>
           <transition name="del">
-            <button v-if="sel_flg != false" @click="remove">delete</button>
+            <button @click="remove">delete</button>
           </transition>
         </td>
       </tr>
@@ -41,7 +42,12 @@
     <hr />
     <ul class="list">
       <li v-for="(item, index) in page_items" :key="index">
-        <span @click="select(item)">{{ item.title }} ({{ item.created }})</span>
+        <span @click="select(item)">{{ item.title }} {{ item.created }}</span>
+      </li>
+    </ul>
+    <ul>
+      <li v-for="(memo, index) in memo" :key="index">
+        {{ memo.memo }}
       </li>
     </ul>
     <hr />
@@ -57,10 +63,10 @@ export default {
   data() {
     return {
       title: "",
-      content: "",
       num_per_page: 7,
       find_flg: false,
       sel_flg: false,
+      newMemo: "",
     };
   },
   computed: {
@@ -129,14 +135,17 @@ export default {
       this.title = item.title;
       this.content = item.content;
     },
-    remove() {
-      if (this.sel_flg == false) {
-        return;
-      } else {
-        this.$store.commit("sample/memo/remove", this.sel_flg);
-        this.set_flg();
-      }
+    remove(id) {
+      this.$store.dispatch("sample/memo/remove", id);
     },
+    // remove() {
+    //   if (this.sel_flg == false) {
+    //     return;
+    //   } else {
+    //     this.$store.commit("sample/memo/remove", this.sel_flg);
+    //     this.set_flg();
+    //   }
+    // },
     find() {
       this.sel_flg = false;
       this.find_flg = true;
@@ -147,9 +156,16 @@ export default {
     prev() {
       this.page--;
     },
+    addMemo() {
+      const memo = this.newMemo;
+
+      this.$store.dispatch("sample/memo/addMemo", { memo });
+      this.newMemo = "";
+    },
   },
   created() {
     this.$store.commit("sample/memo/set_page", 0);
+    this.$store.dispatch("sample/memo/fetchMemo");
   },
 };
 </script>

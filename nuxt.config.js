@@ -1,9 +1,12 @@
 const pkg = require('./package')
 const webpack = require('webpack')
+const Sass = require('sass')
+const Fiber = require('fibers')
 
 export default {
   // Disable server-side rendering (https://go.nuxtjs.dev/ssr-mode)
   ssr: false,
+
 
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
@@ -20,18 +23,22 @@ export default {
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
   css: [
+     "~assets/scss/common.scss"
   ],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
-   '~/plugins/firebase'
+   '~/plugins/firebase',
+   '~/plugins/auth',
+   '~plugins/user'
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
   components: true,
 
   // Modules for dev and build (recommended) (https://go.nuxtjs.dev/config-modules)
-  buildModules: [
+  buildModules: ['@nuxtjs/vuetify', ['@nuxtjs/vuetify', { /* module options */ }]
+
   ],
 
   // Modules (https://go.nuxtjs.dev/config-modules)
@@ -50,6 +57,14 @@ export default {
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {
+    loaders: {
+    scss:{
+      implementation: Sass,
+      sassOptions: {
+        fiber: Fiber
+      }
+    }
+    },
     plugins: [
       new webpack.ProvidePlugin({
         '_': 'lodash'

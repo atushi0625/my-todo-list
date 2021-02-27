@@ -1,45 +1,51 @@
 import firebase from '~/plugins/firebase'
+import { db , todosRef } from '~/plugins/firebase'
 import { firestoreAction } from 'vuexfire'
 
 
-const db = firebase.firestore() //データベースはfirebase.firestore
-const todosRef = db.collection('todos')//コレクション名はtodos
-
 export const state = () => ({
-  todos: [],
+  todos: []
 })
 
 export const actions = {
-  init: firestoreAction(({ bindFirestoreRef })=>{
+  // 初期化
+  init: firestoreAction(({ bindFirestoreRef }) => {
     bindFirestoreRef('todos', todosRef)
   }),
-  add: firestoreAction((context, name) => {
-    if(name.trim()){ 　　//入力値が空白ではないか確認
+  // 追加
+  add: firestoreAction((context, { name, detail, date }) => {
+    if (name.trim()) {
       todosRef.add({
-        name: name,
-        state: 0,
-        month: 'month',
-        day: 'day',
+        name,
+        detail,
+        date,
         done: false,
-        created: firebase.firestore.FieldValue.serverTimestamp()
-
-        
       })
     }
   }),
+  // 削除
   remove: firestoreAction((context, id) => {
     todosRef.doc(id).delete()
   }),
-  toggle: firestoreAction((context, todo) => {  //todoの完了未完了
+  // ステータスの更新
+  toggle: firestoreAction((context, todo) => {
     todosRef.doc(todo.id).update({
       done: !todo.done
-   })
-  }), 
+    })
+  }),
+// edit: firestoreAction((context, id)=>{
+//   todosRef.doc(id)
+// })
 }
+
+
+
+
+
 
 export const getters = {
   orderdTodos: state => {
-   return _.sortBy(state.todos, 'created')
-   //state.todosの値をcreatedでソートして返す、orderdTodosという名前でコンポーネントから呼び出す
+    return _.sortBy(state.todos, 'created')
+    //state.todosの値をcreatedでソートして返す、orderdTodosという名前でコンポーネントから呼び出す
   }
 }

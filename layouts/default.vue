@@ -1,9 +1,16 @@
 <template>
-  <div>
-    <Header />
-    <Nuxt />
-  </div>
-</template>
+  <v-app dark>
+    <v-app-bar color="#5963F8" fixed app dark>
+      <Header />
+    </v-app-bar>
+    <v-content>
+      <v-container>
+        <Nuxt />
+      </v-container>
+    </v-content>
+  </v-app>
+</template>  
+
 
 <style>
 html {

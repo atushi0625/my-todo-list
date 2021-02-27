@@ -17,12 +17,9 @@
 </template>
 
 <script>
+import { db } from "~/plugins/firebase";
 export default {
-  computed: {
-    user() {
-      return this.$store.getters["user"];
-    },
-  },
+  middleware: ["checkRegister"],
   data() {
     return {
       email: "",
@@ -31,16 +28,23 @@ export default {
   },
   methods: {
     register() {
-      this.$store.dispatch("login/register", {
-        email: this.email,
-        password: this.password,
-      });
-      // 送信した後textの中身をからにする
+      this.$fireAuth
+        .createUserWithEmailAndPassword(this.email, this.password)
+        .then((user) => {
+          db.collection("users")
+            .doc(user.user.uid)
+            .set({
+              email: (this.email = ""),
+            });
+          console.log(user);
+          alert("成功です！");
+          if (!user) this.$router.push("/login");
+        })
+        .catch(function (error) {
+          console.log({ code: error.code, message: error.message });
+        });
       this.email = "";
       this.password = "";
-      if (this.$store.getters["login/register"]) {
-        this.$router.push("/login");
-      }
     },
   },
 };
