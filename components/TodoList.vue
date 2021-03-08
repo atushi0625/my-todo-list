@@ -2,6 +2,7 @@
   <v-row>
     <v-col cols="12" md="12">
       <v-list color="#f4f5fc">
+        <!-- 子コンポーネントになるので親であるboard.vueに{{ name }}を渡す -->
         <v-subheader class="font-weight-bold">{{ name }}</v-subheader>
         <v-col v-for="todo in todolist" :key="todo.id" cols="12" class="pt-0">
           <v-card>
@@ -26,10 +27,12 @@
                   </v-chip>
                 </v-btn>
               </v-col>
-              <v-col cols="2" md="2">
-                <v-btn icon color="grey" text dark @click="remove(todo.id)">
+              <v-col cols="14" lg="4">
+                <v-btn color="blue" text dark @click="remove(todo.id)">
                   <v-icon>mdi-close-circle-outline</v-icon>
+                  削除
                 </v-btn>
+                <EditFome />
               </v-col>
             </v-card-actions>
           </v-card>
@@ -40,8 +43,13 @@
 </template>
 
 <script>
+import EditFome from "@/components/EditFome.vue";
 export default {
+  components: {
+    EditFome,
+  },
   props: {
+    //データの受け口
     //オブジェクトでもデータを渡せる
     name: {
       type: String, //型を指定
@@ -49,7 +57,7 @@ export default {
       // required: true //必ずこの属性が必要かどうか決める
     },
     todolist: {
-      type: Array,
+      type: Array, //配列型
       default: null,
     },
   },
@@ -62,6 +70,9 @@ export default {
     toggle(todo) {
       this.$store.dispatch("sample/toggle", todo);
     },
+    // update(id) {
+    //   this.$store.dispach("sample/update", id);
+    // },
   },
 };
 </script>

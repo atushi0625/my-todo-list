@@ -1,19 +1,26 @@
 export default ({ app, redirect }, inject) => {
-     inject('user', async () => {
-       const auth = await app.$auth()
+     inject('user', async () => { //'userを注入'ページに'user'を返す
+       const auth = await app.$auth()　//authの変数にはauth.jsが入っている
        if (!auth) {
-         redirect('/login')
+         redirect('/login') //ログイン画面に戻される
+         return 
        }
-       const usersSnapShot = await app.$firestore
-       .collection('users')
-       .doc(auth.uid)
-       .get()
+      //  const usersSnapShot = await app.$firestore
+      //  .collection('users')
+      //  .doc(auth.uid)
+      //  .get()
 
-       const user = usersSnapShot.data()
-       if(user!= null )
-       return {
-        uid: auth.uid,
-        ...user
-      }
+      //  const user = usersSnapShot.data()
+      //  if(user!= null )return null
+      //  return {
+      //   uid: auth.uid,
+      //   ...user
+      // }
      })
    }
+
+
+   //cannot propaty uid of nullのエラー
+// authがnullになっていてnull.uidになっていた。
+//原因としては６行目からずっと処理が続いいていたからでした。
+// なのでreturnで処理を一回止める必要があった。

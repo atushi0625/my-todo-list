@@ -15,6 +15,7 @@ if(!firebase.apps.length) {
 }
 export const db = firebase.firestore()
 export const todosRef = db.collection('todos')
+// export const userRef = db.collection('users')
  
 
 

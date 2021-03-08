@@ -1,16 +1,13 @@
 <template>
   <v-dialog v-model="dialog" persistent max-width="600">
     <template v-slot:activator="{ on }">
-      <v-btn color="#5963F8" dark class="font-weight-bold" v-on="on">
+      <v-btn color="red" dark class="font-weight-bold" v-on="on">
         <v-icon small class="mr-2">mdi-plus-circle-outline </v-icon>
-        新規タスクを追加
+        編集
       </v-btn>
     </template>
 
     <v-card>
-      <v-card-title class="headline grey lighten-2">
-        新規タスクを追加
-      </v-card-title>
 
       <v-card-text>
         <v-container>
@@ -56,7 +53,7 @@
       <v-card-actions>
         <div class="flex-grow-1"></div>
         <v-btn color="primary" text @click="dialog = false">キャンセル</v-btn>
-        <v-btn color="primary" text @click="add">登録</v-btn>
+        <v-btn color="primary" text @click="editTodo(id)">保存</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -77,8 +74,8 @@ export default {
     };
   },
   methods: {
-    add() {
-      this.$store.dispatch("sample/add", {
+    editTodo(id) {
+      this.$store.dispatch("sample/update", {
         name: this.name,
         detail: this.detail,
         date: this.date,
@@ -90,3 +87,7 @@ export default {
   },
 };
 </script>
+
+ 編集ボタンクリック
+ クリックされたIDをプロップスでEDIT.VUEに渡す（親）　　取得
+ 編集対象のID

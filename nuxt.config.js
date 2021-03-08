@@ -30,7 +30,8 @@ export default {
   plugins: [
    '~/plugins/firebase',
    '~/plugins/auth',
-   '~plugins/user'
+   '~/plugins/user',
+   '~/plugins/vuelidate'
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)

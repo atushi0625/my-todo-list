@@ -32,7 +32,7 @@
 
 <script>
 export default {
-  middleware: ["checkLogin"],
+  // middleware: ["checkLogin"],
 
   data() {
     return {
@@ -43,12 +43,12 @@ export default {
   },
   methods: {
     login() {
-      this.$firebase
-        .auth()
+      this.$fireAuth
         .signInWithEmailAndPassword(this.email, this.password)
         .then((user) => {
           //ログイン成功時に.thenに記載,ログインと同時に取得
           console.log("成功！");
+          this.$router.push("/board");
         })
         .catch((error) => {
           alert(error);
