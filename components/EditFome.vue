@@ -1,14 +1,13 @@
 <template>
   <v-dialog v-model="dialog" persistent max-width="600">
     <template v-slot:activator="{ on }">
-      <v-btn color="red" dark class="font-weight-bold" v-on="on">
+      <v-btn dark class="font-weight-bold" v-on="on">
         <v-icon small class="mr-2">mdi-plus-circle-outline </v-icon>
         編集
       </v-btn>
     </template>
 
     <v-card>
-
       <v-card-text>
         <v-container>
           <v-row>
@@ -62,6 +61,7 @@
 
 <script>
 export default {
+  props: ["id"], //TodoList.vueの<EditFome/>へ渡す
   data() {
     return {
       name: "",
@@ -76,6 +76,7 @@ export default {
   methods: {
     editTodo(id) {
       this.$store.dispatch("sample/update", {
+        id,
         name: this.name,
         detail: this.detail,
         date: this.date,
@@ -88,6 +89,3 @@ export default {
 };
 </script>
 
- 編集ボタンクリック
- クリックされたIDをプロップスでEDIT.VUEに渡す（親）　　取得
- 編集対象のID

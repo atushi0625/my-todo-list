@@ -39,10 +39,13 @@ export const actions = {
       done: !todo.done
     })
   }),
-  update: firestoreAction((context, todo)=>{
-    todosRef.doc(todo.id).update({
-      id:docID
-    })
+  //編集機能
+  update: firestoreAction((context,{ name, detail, date, id } )=>{
+    todosRef.doc(id).update({
+      name,
+      detail,
+      date
+    },{merge:true})
   })
 }
 

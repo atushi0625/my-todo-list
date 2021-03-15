@@ -59,7 +59,7 @@ import {
 
 export default {
   mixins: [validationMixin],
-  // middleware: ["checkRegister"],
+  middleware: ["checkRegister"],
 
   validations: {
     name: { required, maxLength: maxLength(10) },
@@ -81,6 +81,9 @@ export default {
   }),
 
   computed: {
+    // user() {
+    //   return this.$store.state.login.user;
+    // },
     checkboxErrors() {
       const errors = [];
       if (!this.$v.checkbox.$dirty) return errors;
@@ -115,17 +118,20 @@ export default {
 
   methods: {
     register() {
-      this.$fireAuth
-        .createUserWithEmailAndPassword(this.email, this.password)
+      this.$store
+        .dispatch("login/register", {
+          email: this.email,
+          password: this.password,
+          name: this.name,
+        })
         .then((user) => {
           console.log(user);
-          alert("成功です！");
           this.$router.push("/login");
         })
         .catch((error) => {
-          this.errMsg = error.message;
           console.log({ code: error.code, message: error.message });
         });
+
       this.email = "";
       this.password = "";
       this.name = "";
@@ -139,4 +145,26 @@ export default {
     },
   },
 };
+// this.$fireAuth
+//   .createUserWithEmailAndPassword(this.email, this.password)
+//   .then((user) => {
+//     console.log(user);
+//     alert("成功です！");
+//     this.$router.push("/login");
+//   })
+
+//   .catch((error) => {
+//     this.errMsg = error.message;
+//     console.log({ code: error.code, message: error.message });
+//   });
 </script>
+
+
+
+
+
+
+
+
+
+

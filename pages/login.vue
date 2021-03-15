@@ -32,7 +32,7 @@
 
 <script>
 export default {
-  // middleware: ["checkLogin"],
+  middleware: ["checkLogin"],
 
   data() {
     return {
@@ -43,11 +43,15 @@ export default {
   },
   methods: {
     login() {
-      this.$fireAuth
-        .signInWithEmailAndPassword(this.email, this.password)
+      this.$store
+        .dispatch("login/login", {
+          //actionsはdispatchで実行
+          email: this.email, //引数
+          password: this.password, //引数
+        })
         .then((user) => {
           //ログイン成功時に.thenに記載,ログインと同時に取得
-          console.log("成功！");
+          console.log("成功！", user);
           this.$router.push("/board");
         })
         .catch((error) => {
@@ -56,17 +60,10 @@ export default {
 
       this.email = "";
       this.password = "";
-
-      // this.$store.dispatch("login/login", {
-      //   //actionsはdispatchで実行
-      //   email: this.email, //引数
-      //   password: this.password, //引数
-      // });
-      // this.email = "";
-      // this.password = "";
       // if (this.$store.getters["login/user"]) {
       //   //user情報が取得できたらHOME画面に移動できる
       //   this.$router.push("/todos");
+      // }
     },
     pressed() {
       alert("pressed");
@@ -117,5 +114,18 @@ $color: blue;
     color: red;
   }
 }
+// this.$fireAuth
+//   .signInWithEmailAndPassword(this.email, this.password)
+//   .then((user) => {
+//     //ログイン成功時に.thenに記載,ログインと同時に取得
+//     console.log("成功！");
+//     this.$router.push("/board");
+//   })
+//   .catch((error) => {
+//     alert(error);
+//   });
+
+// this.email = "";
+// this.password = "";
 </style>
 

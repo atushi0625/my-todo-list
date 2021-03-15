@@ -1,21 +1,26 @@
 export default ({ app, redirect }, inject) => {
-     inject('user', async () => { //'userを注入'ページに'user'を返す
-       const auth = await app.$auth()　//authの変数にはauth.jsが入っている
+  inject('user', async () => { //'userを注入'ページに'user'を返す
+  const auth = await app.$auth()　//authの変数にはauth.jsが入っている
        if (!auth) {
          redirect('/login') //ログイン画面に戻される
-         return 
-       }
-      //  const usersSnapShot = await app.$firestore
-      //  .collection('users')
-      //  .doc(auth.uid)
-      //  .get()
+         return
+       } else {
+         const usersSnapShot = await app.$firestore
+         .collection('users')
+         .doc(auth.uid)
+         .get()
+  
+         const user = usersSnapShot.data()
+         if(!user)return null
 
-      //  const user = usersSnapShot.data()
-      //  if(user!= null )return null
-      //  return {
-      //   uid: auth.uid,
-      //   ...user
-      // }
+         return {
+          uid: auth.uid,
+          ...user
+        }
+
+       }
+
+      
      })
    }
 

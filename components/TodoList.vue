@@ -32,7 +32,9 @@
                   <v-icon>mdi-close-circle-outline</v-icon>
                   削除
                 </v-btn>
-                <EditFome />
+                <EditFome :id="todo.id" :disabled="update" />
+                <!-- EditFome.vueコンポーネントからpropsで渡ってきたidを:(bind)させる -->
+                <!-- そのidはtodoの中のidですよという意味 -->
               </v-col>
             </v-card-actions>
           </v-card>
@@ -47,6 +49,11 @@ import EditFome from "@/components/EditFome.vue";
 export default {
   components: {
     EditFome,
+  },
+  data() {
+    return {
+      update: false,
+    };
   },
   props: {
     //データの受け口
@@ -70,9 +77,6 @@ export default {
     toggle(todo) {
       this.$store.dispatch("sample/toggle", todo);
     },
-    // update(id) {
-    //   this.$store.dispach("sample/update", id);
-    // },
   },
 };
 </script>
