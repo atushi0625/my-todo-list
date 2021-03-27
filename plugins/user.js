@@ -4,21 +4,22 @@ export default ({ app, redirect }, inject) => {
        if (!auth) {
          redirect('/login') //ログイン画面に戻される
          return
-       } else {
-         const usersSnapShot = await app.$firestore
-         .collection('users')
-         .doc(auth.uid)
-         .get()
+       } 
+   //     else {
+   //       const usersSnapShot = await app.$firestore
+   //       .collection('users')
+   //       .doc(auth.uid)
+   //       .get()
   
-         const user = usersSnapShot.data()
-         if(!user)return null
+   //       const user = usersSnapShot.data()
+   //       if(!user)return null
 
-         return {
-          uid: auth.uid,
-          ...user
-        }
+   //       return {
+   //        uid: auth.uid,
+   //        ...user
+   //      }
 
-       }
+   //     }
 
       
      })

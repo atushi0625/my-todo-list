@@ -8,6 +8,7 @@
       </v-row>
     </v-form>
     <h2>{{ number }}</h2>
+    <h1>{{ user.password }}</h1>
     <!-- <LikeNumber :total-number="number" @my-click="incrementNumber"></LikeNumber> -->
     <LikeNumber :total-number="number" @my-click="number = $event"></LikeNumber>
     <!-- データの送り口 -->
@@ -45,17 +46,20 @@ export default {
         return el.done === true;
       }, this);
     },
+    user() {
+      return this.$store.getters["login/user"];
+    },
   },
   created() {
     this.$store.dispatch("sample/init");
   },
   methods: {
     logout() {
-      this.$fireAuth.signOut().then((res) => {
-        //ログアウト正常終了時はログイン画面に戻る
-        this.$router.push("/login");
-        console.log("成功", res);
-      });
+      // this.$store.dispatch(["login/deleteLoginUser, logout"]);
+      this.$store.dispatch("login/logout");
+      // this.$store.dispatch("login/logout, deleteLoginUser");
+      //ログアウト正常終了時はログイン画面に戻る
+      this.$router.push("/login");
     },
     // incrementNumber(value) {
     //   this.number = value; //このvalueは子コンポーネントのthis.totalNumber + 1 を受け取った

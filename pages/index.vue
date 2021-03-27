@@ -4,6 +4,7 @@
     <nuxt-link to="/login">ログイン</nuxt-link>
     <nuxt-link to="/register">登録</nuxt-link>
     <nuxt-link to="/todos">TODO</nuxt-link>
+    <nuxt-link to="/board">TODOLIST</nuxt-link>
   </div>
 </template>
 

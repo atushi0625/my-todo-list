@@ -13,11 +13,13 @@ apiKey: process.env.FIREBASE_API_KEY
 if(!firebase.apps.length) {
     firebase.initializeApp(config)
 }
+
+//使用するApi
 export const db = firebase.firestore()
 export const todosRef = db.collection('todos')
  
 
-
+//Appの初期化
 if (!firebase.apps.length) {
     firebase.initializeApp({ 
     apiKey: process.env.FIREBASE_API_KEY,

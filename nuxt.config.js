@@ -30,8 +30,9 @@ export default {
   plugins: [
    '~/plugins/firebase',
    '~/plugins/auth',
-   '~/plugins/user',
-   '~/plugins/vuelidate'
+  //  '~/plugins/user',
+   '~/plugins/vuelidate',
+   { src: '~/plugins/localStrage.js', ssr: false }
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)

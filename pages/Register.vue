@@ -81,9 +81,6 @@ export default {
   }),
 
   computed: {
-    // user() {
-    //   return this.$store.state.login.user;
-    // },
     checkboxErrors() {
       const errors = [];
       if (!this.$v.checkbox.$dirty) return errors;

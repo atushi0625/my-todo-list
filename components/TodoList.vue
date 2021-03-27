@@ -32,7 +32,7 @@
                   <v-icon>mdi-close-circle-outline</v-icon>
                   削除
                 </v-btn>
-                <EditFome :id="todo.id" :disabled="update" />
+                <EditFome :id="todo.id" />
                 <!-- EditFome.vueコンポーネントからpropsで渡ってきたidを:(bind)させる -->
                 <!-- そのidはtodoの中のidですよという意味 -->
               </v-col>
@@ -50,11 +50,11 @@ export default {
   components: {
     EditFome,
   },
-  data() {
-    return {
-      update: false,
-    };
-  },
+  // data() {
+  //   return {
+  //     update: false,
+  //   };
+  // },
   props: {
     //データの受け口
     //オブジェクトでもデータを渡せる

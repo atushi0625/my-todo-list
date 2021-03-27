@@ -56,7 +56,7 @@
       <v-card-actions>
         <div class="flex-grow-1"></div>
         <v-btn color="primary" text @click="dialog = false">キャンセル</v-btn>
-        <v-btn color="primary" text @click="add">登録</v-btn>
+        <v-btn color="primary" text @click.prevent="add">登録</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
