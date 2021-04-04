@@ -30,7 +30,7 @@ export default {
   plugins: [
    '~/plugins/firebase',
    '~/plugins/auth',
-  //  '~/plugins/user',
+   '~/plugins/user',
    '~/plugins/vuelidate',
    { src: '~/plugins/localStrage.js', ssr: false }
   ],
@@ -55,7 +55,9 @@ export default {
   //   baseURL: process.env.BASE_URL || 'https://firestore.googleapis.com/v1/projects/my-todolist-pj/databases/(default)/documents',
   //   APIkey: process.env.FIREBASE_API_KEY || 'AIzaSyA9TDyjtoOeQ_0pt05jEfQ7jEUdGqmtPXc',
   // },
-
+    //  router:{
+    //     middleware: ['checkAuth']
+    //  },
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {

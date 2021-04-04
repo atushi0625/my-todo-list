@@ -35,6 +35,31 @@
       <p>アカウントをお持ちでない方</p>
       <nuxt-link to="/Register"> 新規登録はこちら </nuxt-link>
     </div>
+    <v-card-text>
+      <h2 class="mt-15">テストユーザー（クリックにて簡易ログイン可能）</h2>
+      <v-simple-table>
+        <template v-slot:default>
+          <thead>
+            <tr>
+              <th class="text-left">testUser</th>
+              <th class="text-left">e-mail</th>
+              <th class="text-left">password</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              v-for="item in testUsers"
+              :key="item.email"
+              @click="testLogin(item)"
+            >
+              <td>{{ item.user }}</td>
+              <td>{{ item.email }}</td>
+              <td>{{ item.password }}</td>
+            </tr>
+          </tbody>
+        </template>
+      </v-simple-table>
+    </v-card-text>
     <div class="error" v-if="error">{{ error.message }}</div>
   </form>
 </template>
@@ -44,7 +69,7 @@ import { required, maxLength, email } from "vuelidate/lib/validators";
 
 export default {
   mixins: [validationMixin],
-  middleware: ["checkLogin"],
+  // middleware: ["checkLogin"],
 
   validations: {
     password: { required, maxLength: maxLength(8) },
@@ -61,6 +86,13 @@ export default {
     email: "",
     checkbox: false,
     error: "",
+    testUsers: [
+      {
+        user: "テストユーザー",
+        email: "test@test.com",
+        password: "abcd1234",
+      },
+    ],
   }),
 
   computed: {
@@ -89,9 +121,14 @@ export default {
   },
 
   methods: {
-    // submit() {
-    //   this.$v.$touch();
-    // },
+    testLogin(item) {
+      this.$store.dispatch("login/login", {
+        email: item.email,
+        password: item.password,
+      });
+      this.login();
+      alert("テストユーザーにてログインしました！！");
+    },
     clear() {
       this.$v.$reset();
       this.password = "";

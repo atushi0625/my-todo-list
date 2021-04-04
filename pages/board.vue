@@ -8,7 +8,7 @@
       </v-row>
     </v-form>
     <h2>{{ number }}</h2>
-    <h1>{{ user.password }}</h1>
+    <h1>{{ user.email }}</h1>
     <!-- <LikeNumber :total-number="number" @my-click="incrementNumber"></LikeNumber> -->
     <LikeNumber :total-number="number" @my-click="number = $event"></LikeNumber>
     <!-- データの送り口 -->
@@ -25,6 +25,8 @@ import TodoList from "@/components/TodoList.vue";
 import TodoDetail from "@/components/TodoDetail.vue";
 import LikeNumber from "@/components/LikeNumber.vue";
 export default {
+  // middleware: ["usercheck"],
+
   data() {
     return {
       number: 14, //親コンポーネントのnumber

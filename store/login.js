@@ -14,10 +14,11 @@ export const state = () => ({
 
 export const getters = {
   // stateを取得する
-  user: state =>  state.user
+  user: state =>  state.user,
   //   isAuthenticed (state){
   //        return !!state.user
   //   }
+
 }
 
 export const actions = {
@@ -26,10 +27,8 @@ export const actions = {
       const userId = { email:email, password:password }
       context.commit("setUser", userId)
       //mutationsの処理を呼び出すときはcommit
-      console.log('user', user);
-
-     })
-
+      console.log('user', user);   
+    })
   },
   //  checkLogin (context) {    //現在ログインしているユーザ情報の取得、contextの中にcommitが入っている
   //   firebase.auth().onAuthStateChanged(user=>{
@@ -43,41 +42,31 @@ export const actions = {
     this.$fireAuth.createUserWithEmailAndPassword(email, password)
     .then((result) => {
       const userId = {name: name, email:email, password:password, uid: uid}
-      context.commit("setUser", userId) 
+      context.commit("setUser",userId) 
       //mutationsの処理を呼び出すときはcommit
       console.log('user', result);
       const userData = { 
-        // name: result.user.name,
-        email: result.user.email,
-        // password: '',
-        uid: result.user.uid
+        name:name,
+        email:email,
+        password:password,
+        uid:result.user.uid
       }
       console.log(userData) 
       this.$firestore.collection('users').doc(result.user.uid).set(userData)
     }).catch(console.error('取得できませんでした'))
 
   },
-  // async createUser(payload,user) {
-  //   const userUid = await user.uid
-  //   this.$firestore.collection("users").doc(userUid).set({
-  //     name: payload.name,
-  //     email: payload.email,
-  //     password: payload.password,
-  //     uid: payload.uid
-  //   }).then(() => {
-  //     console.log("ドキュメント追加に成功");
-  //   }).catch((error) => {
-  //     console.error("ドキュメント追加中にエラー", error)
-  //   })
-
-  // },
-  deleteLoginUser({ commit }){
+   deleteLoginUser({ commit }){
     commit('deleteLoginUser')
   },
-  logout({ dispatch }){
+  async logout({ dispatch }){
+    const user = await this.$firestore.collection('users').doc('uid')
+    user.delete().then(()=>{
     this.$fireAuth.signOut().then((res)=>{
-      dispatch('deleteLoginUser')
-    console.log('成功',res)
+
+        dispatch('deleteLoginUser')
+      console.log('成功',res)
+      })
     })
   }
 
@@ -93,6 +82,7 @@ export const mutations = {
   deleteLoginUser(state){
     state.user = ''
   }
+  
   //   checkLogin(state){
   //     state.user.login = true
   //   },

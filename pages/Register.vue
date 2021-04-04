@@ -142,18 +142,6 @@ export default {
     },
   },
 };
-// this.$fireAuth
-//   .createUserWithEmailAndPassword(this.email, this.password)
-//   .then((user) => {
-//     console.log(user);
-//     alert("成功です！");
-//     this.$router.push("/login");
-//   })
-
-//   .catch((error) => {
-//     this.errMsg = error.message;
-//     console.log({ code: error.code, message: error.message });
-//   });
 </script>
 
 
